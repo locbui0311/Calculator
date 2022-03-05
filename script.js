@@ -5,32 +5,68 @@ class Calculator{
         this.clear()
     }
     clear() {
-        this.currentOperand= ''
-        this.previousOperand=''
+        this.currentOperand  = ''
+        this.previousOperand = ''
         this.operation=undefined
     }
     delete(){
-
+        this.currentOperand = this.currentOperand.toString().slice(0, -1)
+        
     }
     //////put number show calculator
-    appendNumber(){
+    appendNumber(number){
+        
         if(number === '.' && this.currentOperand.includes('.')) return
         this.currentOperand = this.currentOperand.toString() + number.toString()
     }
     //////chosse calculation show 
     chooseOperation(operation){
+        if(this.currentOperand ==='') return
+        if(this.previousOperand !== '') {
+            this.compute()
+        }
         this.operation = operation
         this.previousOperand = this.currentOperand
         this.currentOperand = ''
     }
 
     compute(){
-
+        let computation
+        const prev= parseFloat(this.previousOperand)
+        const current= parseFloat(this.currentOperand)
+        if(isNaN(prev)|| isNaN(current)) return
+        switch (this.operation){
+            case '+':
+                computation = prev + current
+            break
+            case '-':
+                computation = prev - current
+            break
+            case '*':
+                computation = prev * current
+            break
+            case '÷':
+                computation = prev / current
+            break
+            default:
+                return
+        }
+        this.currentOperand = computation
+        this.operation = undefined
+        this.previousOperand = ''
     }
     updateDisplay(){
-        this.currentOperandTextElement.innerText = this.currentOperand
-        this.previousOperandTextElement.innerText = this.previousOperand
+        console.log(this.currentOperand)
+        this.currentOperandTextElement.innerText =
+        this.getDisplayNumber(this.currentOperand)
+      if (this.operation != null) {
+        this.previousOperandTextElement.innerText =
+          `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
+      } else {
+        this.previousOperandTextElement.innerText = ''
+      }
     }
+        
 }
 
 const numberButtons = document.querySelectorAll('[data-number]')
@@ -46,18 +82,33 @@ const calculator=new Calculator(previousOperandTextElement,currentOperandTextEle
 //////update calculation to current
 numberButtons.forEach(button =>{
     button.addEventListener('click',()=>{
+        console.log(button)
         calculator.appendNumber(button.innerText)
         calculator.updateDisplay()
     })
 })
 
-numberButtons.forEach(button =>{
+operationButtons.forEach(button =>{
     button.addEventListener('click',()=>{
-        calculator.appendNumber(button.innerText)
+        calculator.chooseOperation(button.innerText)
         calculator.updateDisplay()
     })
 })
 
+// equalsButton.addEventListener('click',button=>{
+//     calculator.compute()
+//     calculator.updateDisplay()
+// })
+
+// allClearButton.addEventListener('click',button=>{
+//     calculator.clear()
+//     calculator.updateDisplay()
+// })
+
+// deleteButton.addEventListener('click', button => {
+//     calculator.delete()
+//     calculator.updateDisplay()
+//   })
 
 
 
