@@ -1,6 +1,6 @@
 *, *::before, *::after{
     box-sizing: border-box;
-    font-family: Georgia, 'Times New Roman', Times, serif,sans-serif;
+    font-family: 'Times New Roman', Times, serif;
     font-weight: normal;
 }
 body {
@@ -42,7 +42,7 @@ body {
     word-break: break-all;
 }
 .output .previous-operand{
-    color: rgba(226, 228, 238, 0.9);
+    color: rgba(214, 216, 230, 0.9);
 }
 .output .current-operand{
     color: rgb(237, 230, 245);
